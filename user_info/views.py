@@ -2,25 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django import forms
 
-# Форма реєстрації
-class RegistrationForm(forms.Form):
-    username = forms.CharField(max_length=150, label='Username')
-    password = forms.CharField(widget=forms.PasswordInput, label='Password')
-    confirm_password = forms.CharField(widget=forms.PasswordInput, label='Confirm Password')
-    
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get('password')
-        confirm_password = cleaned_data.get('confirm_password')
-        if password != confirm_password:
-            raise forms.ValidationError("Passwords do not match.")
+from .forms import RegistrationForm, LoginForm
 
-# Форма логіну
-class LoginForm(forms.Form):
-    username = forms.CharField(max_length=150, label='Username')
-    password = forms.CharField(widget=forms.PasswordInput, label='Password')
 
 # Головна сторінка
 @login_required
@@ -42,7 +26,7 @@ def register(request):
             return HttpResponse("Registration successful! Your data is securely hidden.")
     else:
         form = RegistrationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'user_info/register.html', {'form': form})
 
 # Логін користувача
 def user_login(request):
@@ -65,4 +49,4 @@ def user_login(request):
                 return HttpResponse("Invalid credentials.")
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'user_info/login.html', {'form': form})
