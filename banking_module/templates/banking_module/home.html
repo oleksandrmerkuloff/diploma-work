@@ -1,0 +1,16 @@
+{% if not is_profile_complete %}
+    <h2>Заповніть форму</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Зберегти</button>
+    </form>
+{% else %}
+    <h2>Дані користувача</h2>
+    <p>Ім'я: {{ profile.first_name }}</p>
+    <p>Прізвище: {{ profile.last_name }}</p>
+    <p>Дата народження: {{ profile.date_of_birth }}</p>
+    <p>Країна: {{ profile.country }}</p>
+    <p>Номер телефону: {{ profile.phone_number }}</p>
+    <p>Паспортний номер: {{ profile.passport_number }}</p>
+{% endif %}
