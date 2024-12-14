@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
 from .forms import CustomUserCreationForm, ProfileForm
 from .models import Profile
@@ -20,9 +21,12 @@ def register(request):
     return render(request, 'register.html', {'form': user_form})
 
 
+
+@login_required
 def home(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
 
+    # Якщо профіль порожній (новий користувач)
     if request.method == 'POST':
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():

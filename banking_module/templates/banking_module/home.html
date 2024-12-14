@@ -14,3 +14,8 @@
     <p>Номер телефону: {{ profile.phone_number }}</p>
     <p>Паспортний номер: {{ profile.passport_number }}</p>
 {% endif %}
+
+{% if user.is_authenticated %}
+    <p>Вітаємо, {{ user.username }}!</p>
+    <a href="{% url 'logout' %}">Вийти</a>
+{% endif %}
