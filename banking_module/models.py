@@ -5,6 +5,11 @@ from django.db import models
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
 
+    def __str__(self):
+        if self.username:
+            return self.username
+        return str(self.pk)
+
 
 class Profile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
@@ -16,4 +21,12 @@ class Profile(models.Model):
     passport_number = models.CharField(max_length=15)
 
     def __str__(self):
-        return self.user.username
+        return str(self.user.pk)
+
+
+class BankClient(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    client_img = models.ImageField(unique=True)
+
+    def __str__(self):
+        return str(self.user.pk)
